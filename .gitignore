@@ -426,3 +426,10 @@ FodyWeavers.xsd
 
 # Official VS Code C# Dev Kit Extension exclusion
 #*.lscache
+
+# Proyecto 1 — base de datos SQLite local y reportes de pruebas
+*.db
+*.db-shm
+*.db-wal
+playwright-report/
+test-results/
