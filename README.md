@@ -8,7 +8,6 @@ Incremento funcional de la plataforma web de la Asociación de Emprendedoras.
 ```
 src/Emprendedoras.Web/     Aplicación web (ASP.NET Core Razor Pages + Identity + SQLite)
 tests/Emprendedoras.Tests/ Pruebas (xUnit)
-docs/                      Plan y artefactos del proyecto
 Emprendedoras.slnx         Solución
 global.json                Versión del SDK de .NET
 ```
