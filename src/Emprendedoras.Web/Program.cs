@@ -12,7 +12,17 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages().AddMvcOptions(options =>
+{
+    // Mensajes de conversión de datos en español (WCAG 3.3.1).
+    var mensajes = options.ModelBindingMessageProvider;
+    mensajes.SetAttemptedValueIsInvalidAccessor((_, campo) => $"El valor de {campo} no es válido.");
+    mensajes.SetValueIsInvalidAccessor(_ => "El valor no es válido.");
+    mensajes.SetValueMustBeANumberAccessor(campo => $"{campo} debe ser un número.");
+    mensajes.SetValueMustNotBeNullAccessor(campo => $"{campo} es obligatorio.");
+});
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddScoped<RegistroSolicitudes>();
 
 var app = builder.Build();
 

@@ -40,6 +40,12 @@ else
                                 }
                             </dd>
                         </dl>
+                        @if (producto.Disponible)
+                        {
+                            <a class="btn btn-primary mt-3" asp-page="/Solicitudes/Nueva" asp-route-productoId="@producto.Id">
+                                Solicitar<span class="visually-hidden"> @producto.Nombre</span>
+                            </a>
+                        }
                     </div>
                 </article>
             </li>

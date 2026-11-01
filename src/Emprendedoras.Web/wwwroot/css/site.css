@@ -62,6 +62,20 @@ body {
   margin: 0;
 }
 
+/* Solicitud de compra (HU-02) */
+.solicitud-producto, .formulario-solicitud {
+  max-width: 36rem;
+}
+
+.campo-cantidad {
+  max-width: 8rem;
+}
+
+/* El resumen de errores se oculta mientras no hay errores. */
+.formulario-solicitud .validation-summary-valid {
+  display: none;
+}
+
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
