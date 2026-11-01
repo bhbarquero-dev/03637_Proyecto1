@@ -1,0 +1,84 @@
+@page "{productoId:int}"
+@model NuevaModel
+@{
+    var producto = Model.Producto!;
+    ViewData["Title"] = $"Solicitar {producto.Nombre}";
+}
+
+<h1 class="h2 mb-3">Solicitar producto</h1>
+
+<section class="card mb-4 solicitud-producto" aria-label="Producto seleccionado">
+    <div class="card-body">
+        <h2 class="h5 card-title">@producto.Nombre</h2>
+        <p class="card-text mb-1">@producto.Descripcion</p>
+        <p class="card-text fw-bold mb-0">@IndexModel.FormatearPrecio(producto.Precio) por unidad</p>
+    </div>
+</section>
+
+@if (!producto.Disponible)
+{
+    <div class="alert alert-warning" role="alert">
+        Este producto está agotado y no admite solicitudes por ahora.
+    </div>
+    <p><a asp-page="/Index">Volver al catálogo</a></p>
+}
+else
+{
+    <p class="alert alert-info">
+        Esta es una versión de prueba: use datos inventados y no escriba datos personales reales.
+    </p>
+
+    <form method="post" class="formulario-solicitud" novalidate>
+        <div asp-validation-summary="All" class="alert alert-danger" role="alert" tabindex="-1"></div>
+
+        <p>Los campos marcados como obligatorios deben completarse.</p>
+
+        <div class="mb-3">
+            <label asp-for="Datos.Nombre" class="form-label">Nombre (obligatorio)</label>
+            <input asp-for="Datos.Nombre" class="form-control" autocomplete="name" aria-required="true"
+                   aria-describedby="error-nombre" aria-invalid="@Model.AriaInvalido("Nombre")" />
+            <span asp-validation-for="Datos.Nombre" id="error-nombre" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Datos.Correo" class="form-label">Correo electrónico (obligatorio)</label>
+            <input asp-for="Datos.Correo" type="email" class="form-control" autocomplete="email" aria-required="true"
+                   aria-describedby="ayuda-correo error-correo" aria-invalid="@Model.AriaInvalido("Correo")" />
+            <div id="ayuda-correo" class="form-text">Lo necesitará para consultar el estado de su solicitud.</div>
+            <span asp-validation-for="Datos.Correo" id="error-correo" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Datos.Telefono" class="form-label">Teléfono (opcional)</label>
+            <input asp-for="Datos.Telefono" type="tel" class="form-control" autocomplete="tel"
+                   aria-describedby="error-telefono" aria-invalid="@Model.AriaInvalido("Telefono")" />
+            <span asp-validation-for="Datos.Telefono" id="error-telefono" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Datos.Cantidad" class="form-label">Cantidad, de 1 a 20 (obligatorio)</label>
+            <input asp-for="Datos.Cantidad" type="number" inputmode="numeric" class="form-control campo-cantidad" aria-required="true"
+                   aria-describedby="error-cantidad" aria-invalid="@Model.AriaInvalido("Cantidad")" />
+            <span asp-validation-for="Datos.Cantidad" id="error-cantidad" class="text-danger"></span>
+        </div>
+
+        <div class="form-check mb-3">
+            <input asp-for="Datos.Consentimiento" class="form-check-input" aria-required="true"
+                   aria-describedby="error-consentimiento" aria-invalid="@Model.AriaInvalido("Consentimiento")" />
+            <label asp-for="Datos.Consentimiento" class="form-check-label">
+                Autorizo el uso de mis datos para gestionar esta solicitud, según el
+                <a asp-page="/Privacy" target="_blank">aviso de privacidad (se abre en otra pestaña)</a>.
+                (obligatorio)
+            </label>
+            <div><span asp-validation-for="Datos.Consentimiento" id="error-consentimiento" class="text-danger"></span></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enviar solicitud</button>
+        <a asp-page="/Index" class="btn btn-link">Volver al catálogo</a>
+    </form>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/validacion.js" asp-append-version="true"></script>
+}
