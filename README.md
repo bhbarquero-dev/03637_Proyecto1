@@ -30,6 +30,15 @@ La base de datos SQLite (`app.db`) se crea automáticamente al iniciar y no se v
 dotnet test
 ```
 
+## Migraciones de base de datos (desarrollo)
+
+La herramienta `dotnet-ef` está declarada como herramienta local en `dotnet-tools.json`:
+
+```bash
+dotnet tool restore
+dotnet dotnet-ef migrations add NombreDeLaMigracion --project src/Emprendedoras.Web --output-dir Data/Migrations
+```
+
 ## Datos
 
 Todos los datos del proyecto son sintéticos. No se incluyen credenciales ni datos personales reales.

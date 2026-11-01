@@ -21,6 +21,47 @@ body {
   margin-bottom: 60px;
 }
 
+/* Enlace para saltar al contenido (WCAG 2.4.1): visible solo al recibir el foco. */
+.saltar-contenido {
+  position: absolute;
+  left: -10000px;
+  top: 0;
+  z-index: 1000;
+  padding: 0.5rem 1rem;
+  background: #ffffff;
+  color: #000000;
+}
+
+.saltar-contenido:focus {
+  left: 0.5rem;
+  top: 0.5rem;
+  outline: 3px solid #258cfb;
+}
+
+/* Catálogo (HU-01) */
+.producto-imagen {
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.producto-datos {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.75rem;
+  row-gap: 0.25rem;
+  align-items: baseline;
+}
+
+.producto-datos dt {
+  font-weight: normal;
+  color: #495057;
+}
+
+.producto-datos dd {
+  margin: 0;
+}
+
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
