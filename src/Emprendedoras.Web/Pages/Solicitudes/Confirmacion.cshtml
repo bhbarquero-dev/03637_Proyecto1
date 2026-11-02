@@ -1,4 +1,5 @@
 @page
+@using Emprendedoras.Web.Domain
 @model ConfirmacionModel
 @{
     ViewData["Title"] = "Solicitud recibida";
@@ -12,7 +13,7 @@
     <p class="fs-3 fw-bold mb-0" id="numero-solicitud">@solicitud.Numero</p>
 </div>
 
-<p>Guarde este número: lo necesitará, junto con su correo, para consultar el estado de la solicitud.</p>
+<p>Guarde este número: lo necesitará, junto con su correo, para <a asp-page="Consultar">consultar el estado de la solicitud</a>.</p>
 
 <dl class="producto-datos mb-4">
     <dt>Producto</dt>
@@ -22,7 +23,7 @@
     <dt>Precio por unidad</dt>
     <dd>@IndexModel.FormatearPrecio(solicitud.PrecioUnitario)</dd>
     <dt>Estado</dt>
-    <dd id="estado-solicitud">@solicitud.Estado</dd>
+    <dd id="estado-solicitud">@solicitud.Estado.Texto()</dd>
 </dl>
 
 <p>El pago y la entrega se coordinan con la asociación fuera de esta plataforma.</p>
