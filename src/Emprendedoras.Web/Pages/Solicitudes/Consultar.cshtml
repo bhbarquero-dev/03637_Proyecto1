@@ -1,0 +1,69 @@
+@page
+@using Emprendedoras.Web.Domain
+@model ConsultarModel
+@{
+    ViewData["Title"] = "Consultar solicitud";
+    var solicitud = Model.Solicitud;
+}
+
+<h1 class="h2 mb-3">Consultar solicitud</h1>
+
+@if (solicitud is not null)
+{
+    <section class="card mb-4 solicitud-producto" role="status" aria-labelledby="titulo-resultado" id="resultado-consulta">
+        <div class="card-body">
+            <h2 class="h5 card-title" id="titulo-resultado">Solicitud @solicitud.Numero</h2>
+            <dl class="producto-datos mb-0">
+                <dt>Estado</dt>
+                <dd class="fw-bold" id="estado-solicitud">@solicitud.Estado.Texto()</dd>
+                <dt>Producto</dt>
+                <dd>@solicitud.Producto!.Nombre</dd>
+                <dt>Cantidad</dt>
+                <dd>@solicitud.Cantidad</dd>
+                <dt>Precio por unidad</dt>
+                <dd>@IndexModel.FormatearPrecio(solicitud.PrecioUnitario)</dd>
+                <dt>Recibida el</dt>
+                <dd>@HoraCostaRica.Formatear(solicitud.FechaCreacionUtc)</dd>
+            </dl>
+        </div>
+    </section>
+    <p><a asp-page="Consultar">Hacer otra consulta</a></p>
+    <p><a asp-page="/Index">Volver al catálogo</a></p>
+}
+else
+{
+    <p>Escriba el número que recibió al enviar su solicitud y el correo con el que la registró.</p>
+
+    @if (Model.SinResultado)
+    {
+        <div class="alert alert-warning" role="alert" id="sin-resultado">
+            No encontramos una solicitud con esos datos. Revise el número y el correo e inténtelo de nuevo.
+        </div>
+    }
+
+    <form method="post" class="formulario-solicitud" novalidate>
+        <div asp-validation-summary="All" class="alert alert-danger" role="alert" tabindex="-1"></div>
+
+        <div class="mb-3">
+            <label asp-for="Datos.Numero" class="form-label">Número de solicitud (obligatorio)</label>
+            <input asp-for="Datos.Numero" class="form-control" autocomplete="off" aria-required="true"
+                   aria-describedby="ayuda-numero error-numero" aria-invalid="@Model.AriaInvalido("Numero")" />
+            <div id="ayuda-numero" class="form-text">Por ejemplo: SOL-2026-0001.</div>
+            <span asp-validation-for="Datos.Numero" id="error-numero" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Datos.Correo" class="form-label">Correo electrónico (obligatorio)</label>
+            <input asp-for="Datos.Correo" type="email" class="form-control" autocomplete="email" aria-required="true"
+                   aria-describedby="error-correo" aria-invalid="@Model.AriaInvalido("Correo")" />
+            <span asp-validation-for="Datos.Correo" id="error-correo" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Consultar</button>
+    </form>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/validacion.js" asp-append-version="true"></script>
+}

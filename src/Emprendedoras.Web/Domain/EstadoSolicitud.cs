@@ -9,3 +9,9 @@ public enum EstadoSolicitud
     Entregada,
     Cancelada
 }
+
+public static class EstadoSolicitudTexto
+{
+    public static string Texto(this EstadoSolicitud estado) =>
+        estado == EstadoSolicitud.EnEntrega ? "En entrega" : estado.ToString();
+}
