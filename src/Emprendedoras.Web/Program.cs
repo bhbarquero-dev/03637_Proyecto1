@@ -10,9 +10,25 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+// Identity sin sus páginas predeterminadas: así no existe registro público y el acceso está en español (HU-04).
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+    {
+        options.Password.RequiredLength = 12;
+        options.Lockout.MaxFailedAccessAttempts = 5;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+    })
     .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddRazorPages().AddMvcOptions(options =>
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Cuenta/Acceso";
+    options.AccessDeniedPath = "/Cuenta/Denegado";
+});
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy(CuentaAdministracion.Politica, politica => politica.RequireRole(CuentaAdministracion.Rol));
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/Admin", CuentaAdministracion.Politica);
+}).AddMvcOptions(options =>
 {
     // Mensajes de conversión de datos en español (WCAG 3.3.1).
     var mensajes = options.ModelBindingMessageProvider;
@@ -30,6 +46,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     scope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
+    await CuentaAdministracion.CrearAsync(scope.ServiceProvider);
 }
 
 // Configure the HTTP request pipeline.

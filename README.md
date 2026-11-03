@@ -24,6 +24,14 @@ dotnet run --project src/Emprendedoras.Web
 
 La base de datos SQLite (`app.db`) se crea automáticamente al iniciar y no se versiona.
 
+Para crear el usuario administrador de prueba, configure antes una contraseña de al menos 12 caracteres, con mayúscula, minúscula, número y símbolo. En otros entornos se usa la variable `Administracion__Contrasena`.
+
+```bash
+dotnet user-secrets set "Administracion:Contrasena" "<contraseña>" --project src/Emprendedoras.Web
+```
+
+El correo de acceso es `administracion@emprendedoras.test`.
+
 ## Probar
 
 ```bash

@@ -1,0 +1,42 @@
+@page
+@model AccesoModel
+@{
+    ViewData["Title"] = "Acceso del personal";
+}
+
+<h1 class="h2 mb-3">Acceso del personal</h1>
+
+<p>Esta página es solo para el personal de la asociación. Para comprar no necesita una cuenta.</p>
+
+@if (Model.Rechazado)
+{
+    <div class="alert alert-warning" role="alert" id="acceso-rechazado">
+        No se pudo iniciar sesión. Revise el correo y la contraseña. Después de 5 intentos fallidos, la cuenta se bloquea durante 15 minutos.
+    </div>
+}
+
+<form method="post" class="formulario-solicitud" novalidate>
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div asp-validation-summary="All" class="alert alert-danger" role="alert" tabindex="-1"></div>
+
+    <div class="mb-3">
+        <label asp-for="Datos.Correo" class="form-label">Correo electrónico (obligatorio)</label>
+        <input asp-for="Datos.Correo" type="email" class="form-control" autocomplete="username" aria-required="true"
+               aria-describedby="error-correo" aria-invalid="@Model.AriaInvalido("Correo")" />
+        <span asp-validation-for="Datos.Correo" id="error-correo" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Datos.Contrasena" class="form-label">Contraseña (obligatorio)</label>
+        <input asp-for="Datos.Contrasena" class="form-control" autocomplete="current-password" aria-required="true"
+               aria-describedby="error-contrasena" aria-invalid="@Model.AriaInvalido("Contrasena")" />
+        <span asp-validation-for="Datos.Contrasena" id="error-contrasena" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/validacion.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,40 @@
+@page
+@using Emprendedoras.Web.Domain
+@model Emprendedoras.Web.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Solicitudes";
+}
+
+<h1 class="h2 mb-3">Solicitudes</h1>
+
+@if (Model.Solicitudes.Count == 0)
+{
+    <p id="sin-solicitudes">Todavía no hay solicitudes.</p>
+}
+else
+{
+    <div class="table-responsive" tabindex="0" role="region" aria-labelledby="titulo-lista">
+        <table class="table table-striped align-middle" id="lista-solicitudes">
+            <caption id="titulo-lista">Solicitudes de la más reciente a la más antigua</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Número</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Producto</th>
+                    <th scope="col">Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var solicitud in Model.Solicitudes)
+                {
+                    <tr>
+                        <th scope="row" class="text-nowrap">@solicitud.Numero</th>
+                        <td>@HoraCostaRica.Formatear(solicitud.FechaCreacionUtc)</td>
+                        <td>@solicitud.Producto!.Nombre</td>
+                        <td>@solicitud.Estado.Texto()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
