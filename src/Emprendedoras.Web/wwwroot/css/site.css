@@ -18,7 +18,8 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+  /* Reserva el espacio del pie de página, que ocupa varias líneas a 360 px. */
+  margin-bottom: 7rem;
 }
 
 /* Enlace para saltar al contenido (WCAG 2.4.1): visible solo al recibir el foco. */
