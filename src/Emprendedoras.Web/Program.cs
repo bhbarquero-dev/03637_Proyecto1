@@ -39,6 +39,7 @@ builder.Services.AddRazorPages(options =>
 });
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddScoped<RegistroSolicitudes>();
+builder.Services.AddScoped<GestionEstados>();
 
 var app = builder.Build();
 

@@ -1,0 +1,28 @@
+@using Emprendedoras.Web.Domain
+@model Emprendedoras.Web.Pages.Shared.HistorialEstados
+@{
+    var solicitud = Model.Solicitud;
+}
+
+<section aria-labelledby="titulo-historial" class="mb-4">
+    <h2 class="h5" id="titulo-historial">Historial</h2>
+    <ol class="historial-estados" id="historial-estados">
+        <li>
+            <span class="fw-bold">Recibida</span>
+            <span class="d-block text-muted">@HoraCostaRica.Formatear(solicitud.FechaCreacionUtc)</span>
+        </li>
+        @foreach (var cambio in solicitud.Cambios.OrderBy(c => c.FechaUtc).ThenBy(c => c.Id))
+        {
+            <li class="cambio-estado">
+                <span class="fw-bold">@cambio.EstadoNuevo.Texto()</span>
+                <span class="d-block text-muted">
+                    @HoraCostaRica.Formatear(cambio.FechaUtc) · antes: @cambio.EstadoAnterior.Texto()
+                    @if (Model.MostrarUsuario)
+                    {
+                        <text> · por <span class="usuario-cambio">@cambio.Usuario</span></text>
+                    }
+                </span>
+            </li>
+        }
+    </ol>
+</section>

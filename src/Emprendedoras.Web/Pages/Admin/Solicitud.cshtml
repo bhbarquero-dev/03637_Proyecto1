@@ -1,0 +1,71 @@
+@page "{numero}"
+@using Emprendedoras.Web.Domain
+@using Emprendedoras.Web.Pages.Shared
+@model Emprendedoras.Web.Pages.Admin.SolicitudModel
+@{
+    var solicitud = Model.Solicitud!;
+    ViewData["Title"] = $"Solicitud {solicitud.Numero}";
+    var siguientes = solicitud.Estado.Siguientes();
+}
+
+<p><a asp-page="Index">Volver a la lista de solicitudes</a></p>
+
+<h1 class="h2 mb-3">Solicitud @solicitud.Numero</h1>
+
+@if (Model.Mensaje is not null)
+{
+    <div class="alert alert-success" role="status" id="mensaje-estado">@Model.Mensaje</div>
+}
+@if (Model.Error is not null)
+{
+    <div class="alert alert-danger" role="alert" id="error-estado">@Model.Error</div>
+}
+
+<dl class="producto-datos mb-4">
+    <dt>Estado</dt>
+    <dd class="fw-bold" id="estado-solicitud">@solicitud.Estado.Texto()</dd>
+    <dt>Producto</dt>
+    <dd>@solicitud.Producto!.Nombre</dd>
+    <dt>Cantidad</dt>
+    <dd>@solicitud.Cantidad</dd>
+    <dt>Precio por unidad</dt>
+    <dd>@Emprendedoras.Web.Pages.IndexModel.FormatearPrecio(solicitud.PrecioUnitario)</dd>
+    <dt>Nombre</dt>
+    <dd>@solicitud.NombrePersona</dd>
+    <dt>Correo</dt>
+    <dd>@solicitud.Correo</dd>
+    <dt>Teléfono</dt>
+    <dd>@(solicitud.Telefono ?? "No indicado")</dd>
+</dl>
+
+<section aria-labelledby="titulo-cambio" class="mb-4">
+    <h2 class="h5" id="titulo-cambio">Cambiar estado</h2>
+    @if (siguientes.Count == 0)
+    {
+        <p id="estado-final">@solicitud.Estado.Texto() es un estado final: ya no se puede cambiar.</p>
+    }
+    else
+    {
+        <form method="post" class="d-flex flex-wrap gap-2" id="formulario-estado">
+            <input type="hidden" name="estadoEsperado" value="@solicitud.Estado" />
+            @foreach (var estado in siguientes)
+            {
+                if (estado == EstadoSolicitud.Cancelada)
+                {
+                    <button type="submit" name="nuevo" value="@estado" class="btn btn-outline-danger"
+                            data-confirmar="¿Cancelar la solicitud @solicitud.Numero? Este cambio no se puede deshacer.">Cancelar solicitud</button>
+                }
+                else
+                {
+                    <button type="submit" name="nuevo" value="@estado" class="btn btn-primary">Marcar como @estado.Texto()</button>
+                }
+            }
+        </form>
+    }
+</section>
+
+<partial name="_HistorialEstados" model="new HistorialEstados(solicitud, MostrarUsuario: true)" />
+
+@section Scripts {
+    <script src="~/js/confirmar.js" asp-append-version="true"></script>
+}

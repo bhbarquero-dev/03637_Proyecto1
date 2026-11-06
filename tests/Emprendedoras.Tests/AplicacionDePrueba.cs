@@ -1,3 +1,5 @@
+using AngleSharp;
+using Emprendedoras.Web.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 
@@ -15,6 +17,23 @@ public class AplicacionDePrueba : WebApplicationFactory<Program>
     {
         builder.UseSetting("ConnectionStrings:DefaultConnection", $"DataSource={rutaBaseDatos};Pooling=False");
         builder.UseSetting("Administracion:Contrasena", ContrasenaAdministracion);
+    }
+
+    // Cliente con la sesión del administrador de prueba iniciada.
+    public async Task<HttpClient> ClienteAdministracionAsync()
+    {
+        var cliente = CreateClient();
+        var html = await cliente.GetStringAsync("/Cuenta/Acceso");
+        var formulario = await BrowsingContext.New().OpenAsync(req => req.Content(html));
+        var token = formulario.QuerySelector("input[name=__RequestVerificationToken]")!.GetAttribute("value")!;
+        var respuesta = await cliente.PostAsync("/Cuenta/Acceso", new FormUrlEncodedContent(new Dictionary<string, string>
+        {
+            ["Datos.Correo"] = CuentaAdministracion.CorreoPredeterminado,
+            ["Datos.Contrasena"] = ContrasenaAdministracion,
+            ["__RequestVerificationToken"] = token
+        }));
+        respuesta.EnsureSuccessStatusCode();
+        return cliente;
     }
 
     protected override void Dispose(bool disposing)
