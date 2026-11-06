@@ -40,5 +40,7 @@ public class Solicitud
     // Evidencia del consentimiento informado (Ley 8968).
     public DateTime FechaConsentimientoUtc { get; set; }
 
+    public List<CambioEstado> Cambios { get; set; } = [];
+
     public static string FormatearNumero(int anio, int secuencia) => $"SOL-{anio:D4}-{secuencia:D4}";
 }

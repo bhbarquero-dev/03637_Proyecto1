@@ -28,7 +28,7 @@ else
                 @foreach (var solicitud in Model.Solicitudes)
                 {
                     <tr>
-                        <th scope="row" class="text-nowrap">@solicitud.Numero</th>
+                        <th scope="row" class="text-nowrap"><a asp-page="Solicitud" asp-route-numero="@solicitud.Numero">@solicitud.Numero</a></th>
                         <td>@HoraCostaRica.Formatear(solicitud.FechaCreacionUtc)</td>
                         <td>@solicitud.Producto!.Nombre</td>
                         <td>@solicitud.Estado.Texto()</td>

@@ -45,7 +45,7 @@ public class ConsultarModel(ApplicationDbContext db) : PageModel
 
         var numero = Datos.Numero.Trim().ToUpperInvariant();
         var correo = Datos.Correo.Trim().ToLowerInvariant();
-        Solicitud = await db.Solicitudes.AsNoTracking().Include(s => s.Producto)
+        Solicitud = await db.Solicitudes.AsNoTracking().Include(s => s.Producto).Include(s => s.Cambios)
             .FirstOrDefaultAsync(s => s.Numero == numero && s.Correo == correo);
 
         // El mismo resultado para número inexistente y correo equivocado:
