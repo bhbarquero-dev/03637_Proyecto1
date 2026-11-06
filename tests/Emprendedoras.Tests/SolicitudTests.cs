@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Emprendedoras.Tests;
 
-// HU-02 Solicitud de compra sin cuenta (issue #3).
 public class SolicitudTests(AplicacionDePrueba aplicacion) : IClassFixture<AplicacionDePrueba>
 {
     private const int ProductoDisponible = 1;

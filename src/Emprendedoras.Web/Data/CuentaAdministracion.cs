@@ -2,15 +2,12 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Emprendedoras.Web.Data;
 
-// Crea el rol Administración y el usuario administrador de prueba (HU-04).
 public static class CuentaAdministracion
 {
     public const string Rol = "Administración";
 
     public const string Politica = "SoloAdministracion";
 
-    // Correo sintético; el dominio .test no existe. La contraseña nunca está en el repositorio:
-    // se lee de user-secrets o de la variable de entorno Administracion__Contrasena.
     public const string CorreoPredeterminado = "administracion@emprendedoras.test";
 
     public static async Task CrearAsync(IServiceProvider servicios)
@@ -42,7 +39,6 @@ public static class CuentaAdministracion
         var creado = await usuarios.CreateAsync(usuario, contrasena);
         if (!creado.Succeeded)
         {
-            // La aplicación arranca igual; solo falta el administrador hasta corregir la contraseña.
             registro.LogError("No se creó el administrador: la contraseña de Administracion:Contrasena no cumple la política ({Faltas}).",
                 string.Join(" ", creado.Errors.Select(e => Explicar(e.Code))));
             return;

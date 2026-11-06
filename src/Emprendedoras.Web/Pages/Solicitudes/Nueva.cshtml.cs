@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Emprendedoras.Web.Pages.Solicitudes;
 
-// Formulario de solicitud de compra sin cuenta (HU-02).
 public class NuevaModel(ApplicationDbContext db, RegistroSolicitudes registro) : PageModel
 {
     public const string ClaveNumero = "NumeroSolicitud";
@@ -58,8 +57,6 @@ public class NuevaModel(ApplicationDbContext db, RegistroSolicitudes registro) :
             return NotFound();
         }
 
-        // La página de un producto agotado no muestra el formulario; este control cubre
-        // los envíos directos y el producto que se agota mientras se llena el formulario.
         if (!Producto.Disponible || !ModelState.IsValid)
         {
             return Page();
@@ -67,8 +64,6 @@ public class NuevaModel(ApplicationDbContext db, RegistroSolicitudes registro) :
 
         var solicitud = await registro.RegistrarAsync(Producto, Datos.Nombre, Datos.Correo, Datos.Telefono, Datos.Cantidad);
 
-        // El número viaja en TempData y no en la URL: la confirmación no se puede abrir
-        // adivinando números, y la consulta de solicitudes exige también el correo (HU-03).
         TempData[ClaveNumero] = solicitud.Numero;
         return RedirectToPage("Confirmacion");
     }

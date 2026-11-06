@@ -5,12 +5,10 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Emprendedoras.Tests;
 
-// Levanta la aplicación con una base SQLite temporal propia de cada ejecución de pruebas.
 public class AplicacionDePrueba : WebApplicationFactory<Program>
 {
     private readonly string rutaBaseDatos = Path.Combine(Path.GetTempPath(), $"emprendedoras-pruebas-{Guid.NewGuid():N}.db");
 
-    // Generada en cada ejecución: no hay ninguna contraseña en el repositorio.
     public string ContrasenaAdministracion { get; } = $"Prueba-{Guid.NewGuid():N}";
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -19,7 +17,6 @@ public class AplicacionDePrueba : WebApplicationFactory<Program>
         builder.UseSetting("Administracion:Contrasena", ContrasenaAdministracion);
     }
 
-    // Cliente con la sesión del administrador de prueba iniciada.
     public async Task<HttpClient> ClienteAdministracionAsync()
     {
         var cliente = CreateClient();
