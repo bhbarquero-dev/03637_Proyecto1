@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Emprendedoras.Tests;
 
-// HU-03 Consulta del estado de la solicitud (issue #4).
 public class ConsultaTests(AplicacionDePrueba aplicacion) : IClassFixture<AplicacionDePrueba>
 {
     private const string Ruta = "/Solicitudes/Consultar";

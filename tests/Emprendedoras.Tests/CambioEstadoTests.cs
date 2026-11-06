@@ -9,7 +9,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Emprendedoras.Tests;
 
-// HU-05 Cambio de estado con historial (issue #6).
 public class CambioEstadoTests(AplicacionDePrueba aplicacion) : IClassFixture<AplicacionDePrueba>
 {
     private const string TokenCampo = "__RequestVerificationToken";
@@ -33,7 +32,6 @@ public class CambioEstadoTests(AplicacionDePrueba aplicacion) : IClassFixture<Ap
             .AsNoTracking().Include(s => s.Cambios).FirstAsync(s => s.Numero == numero);
     }
 
-    // Envía el formulario de cambio de estado; permite enviar valores que la página no ofrece.
     private static async Task<(HttpResponseMessage Respuesta, IDocument Documento)> CambiarAsync(
         HttpClient cliente, string numero, EstadoSolicitud esperado, EstadoSolicitud nuevo)
     {
@@ -160,7 +158,6 @@ public class CambioEstadoTests(AplicacionDePrueba aplicacion) : IClassFixture<Ap
         var cliente = await aplicacion.ClienteAdministracionAsync();
         await CambiarAsync(cliente, solicitud.Numero, EstadoSolicitud.Recibida, EstadoSolicitud.Confirmada);
 
-        // Otra persona tenía la página abierta cuando la solicitud aún estaba Recibida.
         var (_, documento) = await CambiarAsync(cliente, solicitud.Numero, EstadoSolicitud.Recibida, EstadoSolicitud.Cancelada);
 
         Assert.Contains("Otra persona cambió el estado", documento.QuerySelector("#error-estado")!.TextContent);

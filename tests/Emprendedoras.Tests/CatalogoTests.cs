@@ -5,7 +5,6 @@ using Emprendedoras.Web.Pages;
 
 namespace Emprendedoras.Tests;
 
-// HU-01 Catálogo de productos (issue #2).
 public class CatalogoTests(AplicacionDePrueba aplicacion) : IClassFixture<AplicacionDePrueba>
 {
     private async Task<IDocument> AbrirCatalogoAsync()

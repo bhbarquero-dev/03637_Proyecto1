@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Emprendedoras.Web.Data;
 
-// Registra solicitudes y les asigna un número único por año.
 public class RegistroSolicitudes(ApplicationDbContext db, TimeProvider reloj)
 {
     private const int MaximoIntentos = 3;
@@ -25,8 +24,6 @@ public class RegistroSolicitudes(ApplicationDbContext db, TimeProvider reloj)
         };
         db.Solicitudes.Add(solicitud);
 
-        // Dos solicitudes simultáneas pueden calcular la misma secuencia; el índice único
-        // rechaza la segunda y se reintenta con la secuencia siguiente.
         for (var intento = 1; ; intento++)
         {
             var ultima = await db.Solicitudes.Where(s => s.Anio == solicitud.Anio).MaxAsync(s => (int?)s.Secuencia) ?? 0;

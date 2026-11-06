@@ -7,8 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Emprendedoras.Web.Pages.Solicitudes;
 
-// Consulta del estado de una solicitud con su número y correo (HU-03).
-// Usa POST para que el correo no quede en la URL ni en el historial del navegador.
 public class ConsultarModel(ApplicationDbContext db) : PageModel
 {
     [BindProperty]
@@ -48,8 +46,6 @@ public class ConsultarModel(ApplicationDbContext db) : PageModel
         Solicitud = await db.Solicitudes.AsNoTracking().Include(s => s.Producto).Include(s => s.Cambios)
             .FirstOrDefaultAsync(s => s.Numero == numero && s.Correo == correo);
 
-        // El mismo resultado para número inexistente y correo equivocado:
-        // no se revela si un número de solicitud existe.
         SinResultado = Solicitud is null;
         return Page();
     }

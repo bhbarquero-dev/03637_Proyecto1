@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Emprendedoras.Web.Pages.Cuenta;
 
-// Inicio de sesión del personal (HU-04). No existe registro público de cuentas.
 public class AccesoModel(SignInManager<IdentityUser> acceso) : PageModel
 {
     [BindProperty]
@@ -44,12 +43,9 @@ public class AccesoModel(SignInManager<IdentityUser> acceso) : PageModel
         var resultado = await acceso.PasswordSignInAsync(Datos.Correo.Trim(), Datos.Contrasena, isPersistent: false, lockoutOnFailure: true);
         if (resultado.Succeeded)
         {
-            // LocalRedirect impide que ReturnUrl lleve a otro sitio.
             return LocalRedirect(Url.IsLocalUrl(ReturnUrl) ? ReturnUrl : "/Admin");
         }
 
-        // El mismo mensaje para correo desconocido, contraseña equivocada y cuenta bloqueada:
-        // no se revela qué cuentas existen.
         Rechazado = true;
         return Page();
     }

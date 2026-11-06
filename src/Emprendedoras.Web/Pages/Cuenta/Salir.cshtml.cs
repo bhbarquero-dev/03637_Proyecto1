@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Emprendedoras.Web.Pages.Cuenta;
 
-// Cierra la sesión solo por POST, para que un enlace externo no pueda cerrarla.
 public class SalirModel(SignInManager<IdentityUser> acceso) : PageModel
 {
     public IActionResult OnGet() => RedirectToPage("/Index");

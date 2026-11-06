@@ -18,11 +18,9 @@ html {
 }
 
 body {
-  /* Reserva el espacio del pie de página, que ocupa varias líneas a 360 px. */
   margin-bottom: 7rem;
 }
 
-/* Enlace para saltar al contenido (WCAG 2.4.1): visible solo al recibir el foco. */
 .saltar-contenido {
   position: absolute;
   left: -10000px;
@@ -39,7 +37,6 @@ body {
   outline: 3px solid #258cfb;
 }
 
-/* Catálogo (HU-01) */
 .producto-imagen {
   height: auto;
   aspect-ratio: 4 / 3;
@@ -63,7 +60,6 @@ body {
   margin: 0;
 }
 
-/* Solicitud de compra (HU-02) */
 .solicitud-producto, .formulario-solicitud {
   max-width: 36rem;
 }
@@ -72,9 +68,13 @@ body {
   max-width: 8rem;
 }
 
-/* El resumen de errores se oculta mientras no hay errores. */
 .formulario-solicitud .validation-summary-valid {
   display: none;
+}
+
+.formulario-solicitud [data-valmsg-for] {
+  display: block;
+  min-height: 1.5em;
 }
 
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
@@ -85,7 +85,6 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
-/* Historial de estados (HU-05) */
 .historial-estados {
   max-width: 36rem;
   padding-left: 1.25rem;

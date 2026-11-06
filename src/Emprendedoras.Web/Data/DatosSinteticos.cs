@@ -2,8 +2,6 @@ using Emprendedoras.Web.Domain;
 
 namespace Emprendedoras.Web.Data;
 
-// Datos de prueba sintéticos: los productos, precios y nombres son inventados
-// y no corresponden a personas ni emprendimientos reales.
 public static class DatosSinteticos
 {
     public static readonly Producto[] Productos =

@@ -10,7 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Emprendedoras.Tests;
 
-// HU-04 Acceso del personal y lista de solicitudes (issue #5).
 public class AccesoPersonalTests(AplicacionDePrueba aplicacion) : IClassFixture<AplicacionDePrueba>
 {
     private const string RutaAcceso = "/Cuenta/Acceso";
@@ -84,7 +83,7 @@ public class AccesoPersonalTests(AplicacionDePrueba aplicacion) : IClassFixture<
         var fila = documento.QuerySelector("#lista-solicitudes tbody tr:last-child")!.TextContent;
         Assert.Contains(DatosSinteticos.Productos[0].Nombre, fila);
         Assert.Contains("Recibida", fila);
-        Assert.Contains("2019", fila); // 1 ene 2020 00:00 UTC es 31 dic 2019 en Costa Rica.
+        Assert.Contains("2019", fila);
         Assert.DoesNotContain("Persona Secreta", html);
         Assert.DoesNotContain("secreta@ejemplo.com", html);
     }
@@ -113,7 +112,6 @@ public class AccesoPersonalTests(AplicacionDePrueba aplicacion) : IClassFixture<
             Assert.Equal(HttpStatusCode.OK, fallido.StatusCode);
         }
 
-        // Con la cuenta bloqueada, ni la contraseña correcta permite entrar.
         var respuesta = await IniciarSesionAsync(cliente, correo, contrasena);
         Assert.Equal(HttpStatusCode.OK, respuesta.StatusCode);
         var documento = await LeerAsync(await respuesta.Content.ReadAsStringAsync());

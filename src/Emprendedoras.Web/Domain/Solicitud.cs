@@ -2,12 +2,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Emprendedoras.Web.Domain;
 
-// Solicitud de compra registrada sin cuenta (HU-02, RF-03).
 public class Solicitud
 {
     public int Id { get; set; }
 
-    // Número de seguimiento: SOL-AAAA-NNNN.
     [Required, StringLength(20)]
     public string Numero { get; set; } = string.Empty;
 
@@ -21,7 +19,6 @@ public class Solicitud
 
     public int Cantidad { get; set; }
 
-    // Precio en colones al momento de la solicitud; el del producto puede cambiar después.
     public int PrecioUnitario { get; set; }
 
     [Required, StringLength(100)]
@@ -37,7 +34,6 @@ public class Solicitud
 
     public DateTime FechaCreacionUtc { get; set; }
 
-    // Evidencia del consentimiento informado (Ley 8968).
     public DateTime FechaConsentimientoUtc { get; set; }
 
     public List<CambioEstado> Cambios { get; set; } = [];

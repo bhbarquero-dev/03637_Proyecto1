@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Emprendedoras.Web.Pages.Admin;
 
-// Detalle de una solicitud y cambio de su estado (HU-05).
+[ResponseCache(NoStore = true, Location = ResponseCacheLocation.None)]
 public class SolicitudModel(ApplicationDbContext db, GestionEstados gestion) : PageModel
 {
     [TempData]
@@ -40,7 +40,6 @@ public class SolicitudModel(ApplicationDbContext db, GestionEstados gestion) : P
             return RedirectToPage(new { numero });
         }
 
-        // La validación se hace en el servidor: un formulario alterado no salta las reglas.
         Error = resultado == GestionEstados.Resultado.TransicionInvalida
             ? $"No se puede pasar de {estadoEsperado.Texto()} a {nuevo.Texto()}."
             : "Otra persona cambió el estado de esta solicitud. Revise el estado actual antes de cambiarlo.";

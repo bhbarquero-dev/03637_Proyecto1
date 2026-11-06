@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Emprendedoras.Web.Pages.Solicitudes;
 
-// Muestra el número de seguimiento justo después de registrar la solicitud (HU-02).
 public class ConfirmacionModel(ApplicationDbContext db) : PageModel
 {
     public Solicitud? Solicitud { get; private set; }
